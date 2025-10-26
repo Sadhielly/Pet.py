@@ -14,69 +14,69 @@ while opc != 0:
     opc = int(input('Digite a opçâo desejada: '))
 
     if opc == 1:
-        tipo = input('Deseja logar como usuário ou administrador(adm): ').lower()
+        tipo = input('Deseja logar como usuário ou administrador(adm): ')
+        while tipo != 'adm and tipo != 'usuario':
+            print('Opção não existente.')
+            tipo = input('Deseja logar como usuário ou administrador(adm): ')
+
         if tipo == 'usuario':
-            for i in range(1):
-                dados = []
+            login = input('Digite o seu e-mail: ')
+            while '@' not in login:
+                print('E-mail inválido')
                 login = input('Digite o seu e-mail: ')
-                if '@' in login:
-                    senha = input('Digite sua senha: ')
-                    if len(senha) >= 8:
-                        dados.append(login)
-                        dados.append(senha)
-                        print('Cadastro realizado com sucesso!')
-                        animal = input('Você deseja cadastrar seu pet? Digite sim ou não: ').lower()
-                        if animal == 'sim':
-                            for i in range(1):
-                                dados_animal = []
-                                nome_animal = input('Digite o nome do seu animal: ')
-                                idade_animal = input('Digite a idade do seu animal: ')
-                                if idade_animal != 0:
-                                    raca_animal = input('Qual a raça de seu animal: ')
-                                    dados_animal.append(nome_animal)
-                                    dados_animal.append(idade_animal)
-                                    dados_animal.append(raca_animal)
-                                    dados.append(dados_animal)
-                                    print('Cadastro de seu pet realizado com sucesso!')
-                                    usuarios.append(dados)
-                                else:
-                                    print('Idade menor que 0.')                           
-                        else:
-                            break
-                    else:
-                        print('Senha com menos de 8 caracteres.')
-                else:
-                    print('E-mail inválido. Escolha a opção e tente novamente.')
-                    break
+            
+            senha = input('Digite sua senha(mínimo de 8 caracteres): ')
+            while len(senha) < 8:
+                print('Senha com menos de 8 caracteres.')
+                senha = input('Digite sua senha(mínimo de 8 caracteres): ')
+            
+            usuarios.append([login, senha])
+            print('Usuário cadastrado com sucesso!')
+            opc_animal = input('Deseja registrar seu pet? Digite sim ou não: ').lower()
+            if opc_animal == 'sim':
+                nome_pet = input('Digite o nome do seu pet: ')
+                idade_pet = int(input('Digite a idade do seu pet: '))
+                while idade_pet < 0 or idade_pet > 100:
+                    print('Idade menor que 0 ou maior que 100 anos.')
+                    idade_pet = int(input('Digite a idade do seu pet: '))
+                tipo_animal = input('Qual o seu anima?(Gato, Cachorro, etc.): ')
+                animal.append([nome_pet, idade_pet, tipo_animal])
+                print('Seu pet foi cadastrado com sucesso!')
+            else:
+                continue
 
         elif tipo == 'adm':
-            for i in range(1):
-                admin = []
+            login_adm = input('Digite e-mail de cadastro: ')
+            while '@' not in login_adm:
+                print('E-mail inválido.')
                 login_adm = input('Digite e-mail de cadastro: ')
-                if '@' in login_adm: 
-                    senha_adm = input('Digite senha de login: ')
-                    if len(senha_adm) >= 8:
-                        id_verify_adm = input('Crie um ID de verifição que possua 10 ou mais números: ')
-                        if len(id_verify_adm) >= 10:
-                            admin.append(login_adm)
-                            admin.append(senha_adm)
-                            admin.append(id_verify_adm)
-                            adm.append(admin)
-                            print('Cadastro realizado com sucesso!')
-                        else:
-                            print('ID de verificação não possui 10 digitos.')
-                    else:
-                        print('Senha com menos de 8 caracteres.')
-                else:
-                    print('E-mail inválido.')
-        else:
-            print('Opção de cadastro inválida')
-
+            senha_adm = input('Digite sua senha(mínimo de 8 caracteres): ')
+            while len(senha_adm) < 8:
+                print('Senha com menos de 8 caracteres.')
+                senha_adm = input('Digite sua senha(mínimo de 8 caracteres): ')
+            id_verify_adm = int(input('Crie um ID de verifição que possua 10 ou mais números: '))
+            while len(str(id_verify_adm)) < 10 or len(str(id_verify_adm)) > 10:
+                print('ID de verificação não possui 10 números.')
+                id_verify_adm = int(input('Crie um ID de verifição que possua 10 ou mais números: '))
+            adm.append([login_adm, senha_adm, id_verify_adm])
+            print('Cadastro do administrador realizada com sucesso!')
+ 
     elif opc == 2:
-        confirm1 = input('Digite o email de cadastro: ')
-        confirm2 = int(input('Digite o ID de confirmação: '))
-        if confirm1 in admin and confirm2 in admin:
-            print('Acessado com sucesso!')
+        confirm1 = input('Digite o seu e-mail de cadastro: ')
+        confirm2 = int(input('Digite o seu ID de verificação: '))
+        acesso = False
+        for info in adm:
+            if confirm1 in info and confirm2 in info:
+                acesso = True
+                break
+
+        if acesso:
+            print('Acesso para o gerenciamento de produtos realizado com sucesso!')
         else:
-            print('Login ou senha inválido. Tente novamente.')
+            print('E-mail ou ID de verificação incorretos.')
             continue
+
+            
+            
+            
+               
