@@ -160,26 +160,27 @@ while opc != 0:
 
                     produto_alvo = input('Digite o produto que deseja alterar: ').upper()
                     for p in range(len(produtos)):
-                        if produtos[i][0] == produto_alvo:
+                        if produtos[p][0] == produto_alvo:
                             while True:
                                 escolha_mudanca = int(input('Deseja alterar o nome[1], valor[2], quantidade[3] ou sair[0]: '))
-                                while escolha_mudanca != 1 and escolha_mudanca != 2 and escolha_mudanca != 3:
+                                while escolha_mudanca != 1 and escolha_mudanca != 2 and escolha_mudanca != 3 and escolha_mudanca != 0:
                                     print('Digite uma opção entre as oferecidas.')
                                     escolha_mudanca = int(input('Deseja alterar o nome[1], valor[2] ou quantidade[3]: '))
                                 if escolha_mudanca == 1:
                                     novo_valor = input('Digite o novo nome que o produto irá receber: ')
-                                    produtos[i][0] = novo_valor
+                                    produtos[p][0] = novo_valor
                                     print('Alterado com sucesso')
                                 
                                 elif escolha_mudanca == 2:
                                     novo_valor = float(input('Diigte o novo valor para o produto designado: '))
-                                    produtos[i][1] = novo_valor
+                                    produtos[p][1] = novo_valor
 
                                 elif escolha_mudanca == 3:
                                     novo_valor = int(input('Digite a nova quantidade do produto: '))
-                                    produtos[i][2] = novo_valor
+                                    produtos[p][2] = novo_valor
                                 
                                 elif escolha_mudanca == 0:
                                     break
+
 
 
