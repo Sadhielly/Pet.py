@@ -1,6 +1,5 @@
 adm = [['ericafonso@gmail.com', 'eric12345', 102030405060]]
 usuarios = []
-pet = []
 produtos = [['SHAMPOO', 12.00, 50], ['PERFUME', 25.00, 100], ['RAÇÃO PEDIGREE', 40.00, 75]]
 servicos = []
 
@@ -14,16 +13,19 @@ while opc != 0:
     print('0. Sair')
 
     opc = int(input('Digite a opçâo desejada: '))
+    while opc < 0 and opc > 4:
+        print('Digite uma opção válida')
+        opc = int(input('Digite a opçâo desejada: '))
 
     if opc == 1:
-        tipo = input('Deseja logar como usuário ou administrador(adm): ')
-        while tipo != 'adm' and tipo != 'usuario':
+        tipo = input('Deseja logar como usuário[1] ou administrador[2]: ')
+        while tipo != '1' and tipo != '2':
             print('Opção não existente.')
             tipo = input('Deseja logar como usuário ou administrador(adm): ')
 
-        if tipo == 'usuario':
+        if tipo == '1':
             login = input('Digite o seu e-mail: ')
-            while '@' not in login:
+            while '@' not in login and '.com' not in login:
                 print('E-mail inválido')
                 login = input('Digite o seu e-mail: ')
             
@@ -34,23 +36,10 @@ while opc != 0:
             
             usuarios.append([login, senha])
             print('Usuário cadastrado com sucesso!')
-            opc_animal = input('Deseja registrar seu pet? Digite sim ou não: ').lower()
-            if opc_animal == 'sim':
-                nome_pet = input('Digite o nome do seu pet: ')
-                idade_pet = int(input('Digite a idade do seu pet: '))
-                while idade_pet < 0 or idade_pet > 100:
-                    print('Idade menor que 0 ou maior que 100 anos.')
-                    idade_pet = int(input('Digite a idade do seu pet: '))
-                tipo_animal = input('Qual o seu anima?(Gato, Cachorro, etc.): ')
-                dono_nome = input('Digite o seu nome ou o nome do tutor do pet: ')
-                pet.append([nome_pet, idade_pet, tipo_animal, {dono_nome}])
-                print('Seu pet foi cadastrado com sucesso!')
-            else:
-                continue
 
-        elif tipo == 'adm':
+        elif tipo == '2':
             login_adm = input('Digite e-mail de cadastro: ')
-            while '@' not in login_adm:
+            while '@' not in login_adm and '.com' not in login_adm:
                 print('E-mail inválido.')
                 login_adm = input('Digite e-mail de cadastro: ')
             senha_adm = input('Digite sua senha(mínimo de 8 caracteres): ')
@@ -63,7 +52,7 @@ while opc != 0:
                 id_verify_adm = int(input('Crie um ID de verifição que possua 10 ou mais números: '))
             adm.append([login_adm, senha_adm, id_verify_adm])
             print('Cadastro do administrador realizada com sucesso!')
- 
+
     elif opc == 2:
         while True:
             confirm1 = input('Digite o seu e-mail de cadastro: ')
@@ -86,7 +75,8 @@ while opc != 0:
             print('1. Cadastrar novo serviço/produto')
             print('2. Buscar serviços/produtos')
             print('3. Atualizar serviços/produtos')
-            print('4. Remover serviços/produtos.')
+            print('4. Remover serviços/produtos')
+            print('0. Voltar a menu anterior')
 
             opcao = int(input('Digite a opção desejada: '))
 
@@ -104,6 +94,7 @@ while opc != 0:
                         valor = float(input('Digite o valor do produto cadastrado: '))
                     quantidade = int(input('Digite a quantidade de produtos em estoque: '))
                     produtos.append([item, valor, quantidade])
+                    print('Produto cadastrado com sucesso!')
 
                 elif escolha == 2:
                     procedimento = input('Digite o serviço que deseja cadastrar: ').upper()
@@ -113,24 +104,19 @@ while opc != 0:
                         valor = float(input('Digite o valor do serviço cadastrado: '))
 
                     horarios = int(input('Digite quantos horarios disponíveis: '))
+                    while horarios < 0 and horarios > 24:
+                        print('Quantidade de valores incoerentes.')
+                        horarios = int(input('Digite quantos horarios disponíveis: '))
                     horario = []
-                    disponibilidade = []
                     for i in range(horarios):
-                        hora = int(input('Digite as horas cadastras: '))
-                        reserva = int(input('Esse horário está disponivel[1] ou reservado[2]: '))
-                        while reserva != 1 and reserva != 2:
-                            print('Opçaõ inválida.')
-                            reserva = int(input('Esse horário está disponivel[1] ou reservado[2]: '))
-                        if reserva == 1:
-                            situacao = 'disponível'
-
-                        elif reserva == 2:
-                            situacao = 'reservado'
-                        
-                        disponibilidade.append(situacao)
+                        hora = int(input(f'Digite a {i+1}° hora cadastrada: '))
+                        while hora < 0 and hora > 24:
+                            print('Horário inexistente.')
+                            hora = int(input(f'Digite a {i+1}° hora cadastras(ex: 09:00): '))
                         horario.append(hora)                    
 
-                    servicos.append([procedimento, valor, horario, disponibilidade])
+                    servicos.append([procedimento, valor, horario])
+                    print('Serviço cadastrado com sucesso!')
             
             elif opcao == 2:
                 escolha = int(input('Deseja buscar produto[1] ou serviço[2]: '))
@@ -139,26 +125,61 @@ while opc != 0:
                     escolha = int(input('Deseja buscar produto[1] ou serviço[2]: '))
 
                 if escolha == 1:
-                    busca = input('Digite qual produto deseja buscar:').upper()
-                    for produto in produtos:
-                        if busca in produto[0]:
-                            print(produto[0])
-                            print(f'Valor: {produto[1]}$ reais')
-                            print('Quantiade', produto[2])
-                                
-   
-                elif escolha == 2:
-                    busca = input('Digite o serviço que deseja buscar: ').upper()
-                    for servico in servicos:
-                        if busca in servico:
-                            print(servico[0])
-                            print(f'Valor: {servico[1]}')
-                            for horas in horario: 
-                                print('Horários:', servico[2][0],':00 horas', end=' ')
-                                print(servico[3])
+                    if len(produtos) == 0:
+                        print('Nenhum produto cadastrado')
+                    else:
+                        busca = input('Digite qual produto deseja buscar:').upper()
+                        for produto in produtos:
+                            if busca in produto[0]:
+                                print(produto[0])
+                                print(f'Valor: {produto[1]} reais')
+                                print('Quantiade', produto[2])
 
-            
-            
-            
-               
+
+                elif escolha == 2:
+                    if len(servicos) == 0:
+                        print('Nenhum serviço cadastrado')
+                    else:
+                        busca = input('Digite o serviço que deseja buscar: ').upper()
+                        for servico in servicos:
+                            if busca in servico:
+                                print(f'Serviço: {servico[0]}  Valor: {servico[1]}$ reais')
+                                print('Horários:')
+                                for hora in servico[2]:
+                                    print(f'{hora}:00 horas')
+
+            elif opcao == 3:
+                escolha = input('Deseja atualizar um produto[P] ou serviço[S]').upper()
+                while escolha != 'P' and escolha != 'S':
+                    print('Opção inválida. Digite uma opção viável.')
+                    escolha = input('Deseja atualizar um produto[P] ou serviço[S]').upper()
+
+                if escolha == 'P':
+                    for i in range(len(produtos)):
+                        print(f'{i+1} - Produto: {produtos[i][0]} - Valor: {produtos[i][1]} reais - Quantidade: {produtos[i][2]}')
+
+                    produto_alvo = input('Digite o produto que deseja alterar: ').upper()
+                    for p in range(len(produtos)):
+                        if produtos[i][0] == produto_alvo:
+                            while True:
+                                escolha_mudanca = int(input('Deseja alterar o nome[1], valor[2], quantidade[3] ou sair[0]: '))
+                                while escolha_mudanca != 1 and escolha_mudanca != 2 and escolha_mudanca != 3:
+                                    print('Digite uma opção entre as oferecidas.')
+                                    escolha_mudanca = int(input('Deseja alterar o nome[1], valor[2] ou quantidade[3]: '))
+                                if escolha_mudanca == 1:
+                                    novo_valor = input('Digite o novo nome que o produto irá receber: ')
+                                    produtos[i][0] = novo_valor
+                                    print('Alterado com sucesso')
+                                
+                                elif escolha_mudanca == 2:
+                                    novo_valor = float(input('Diigte o novo valor para o produto designado: '))
+                                    produtos[i][1] = novo_valor
+
+                                elif escolha_mudanca == 3:
+                                    novo_valor = int(input('Digite a nova quantidade do produto: '))
+                                    produtos[i][2] = novo_valor
+                                
+                                elif escolha_mudanca == 0:
+                                    break
+
 
