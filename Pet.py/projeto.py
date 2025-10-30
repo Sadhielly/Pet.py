@@ -110,10 +110,12 @@ while opc != 0:
                     horario = []
                     for i in range(horarios):
                         hora = int(input(f'Digite a {i+1}° hora cadastrada: '))
+                        situacao = input('Este horário está disponível ou reservado: ')
                         while hora < 0 and hora > 24:
                             print('Horário inexistente.')
-                            hora = int(input(f'Digite a {i+1}° hora cadastras(ex: 09:00): '))
-                        horario.append(hora)                    
+                            hora = int(input(f'Digite a {i+1}° hora cadastras: '))
+                            situacao = input('Este horário está disponível ou reservado: ')
+                        horario.append([hora, situacao, []])                    
 
                     servicos.append([procedimento, valor, horario])
                     print('Serviço cadastrado com sucesso!')
@@ -128,7 +130,7 @@ while opc != 0:
                     if len(produtos) == 0:
                         print('Nenhum produto cadastrado')
                     else:
-                        busca = input('Digite qual produto deseja buscar:').upper()
+                        busca = input('Digite qual produto deseja buscar: ').upper()
                         for produto in produtos:
                             if busca in produto[0]:
                                 print(produto[0])
@@ -146,13 +148,13 @@ while opc != 0:
                                 print(f'Serviço: {servico[0]}  Valor: {servico[1]}$ reais')
                                 print('Horários:')
                                 for hora in servico[2]:
-                                    print(f'{hora}:00 horas')
+                                    print(f'{hora[0]}:00 horas - situação: {hora[1]}')
 
             elif opcao == 3:
-                escolha = input('Deseja atualizar um produto[P] ou serviço[S]').upper()
+                escolha = input('Deseja atualizar um produto[P] ou serviço[S]: ').upper()
                 while escolha != 'P' and escolha != 'S':
                     print('Opção inválida. Digite uma opção viável.')
-                    escolha = input('Deseja atualizar um produto[P] ou serviço[S]').upper()
+                    escolha = input('Deseja atualizar um produto[P] ou serviço[S]: ').upper()
 
                 if escolha == 'P':
                     for i in range(len(produtos)):
@@ -167,8 +169,8 @@ while opc != 0:
                                     print('Digite uma opção entre as oferecidas.')
                                     escolha_mudanca = int(input('Deseja alterar o nome[1], valor[2] ou quantidade[3]: '))
                                 if escolha_mudanca == 1:
-                                    novo_valor = input('Digite o novo nome que o produto irá receber: ')
-                                    produtos[p][0] = novo_valor
+                                    novo_nome = input('Digite o novo nome que o produto irá receber: ')
+                                    produtos[p][0] = novo_nome
                                     print('Alterado com sucesso')
                                 
                                 elif escolha_mudanca == 2:
@@ -176,11 +178,12 @@ while opc != 0:
                                     produtos[p][1] = novo_valor
 
                                 elif escolha_mudanca == 3:
-                                    novo_valor = int(input('Digite a nova quantidade do produto: '))
-                                    produtos[p][2] = novo_valor
+                                    nova_quantidade = int(input('Digite a nova quantidade do produto: '))
+                                    produtos[p][2] = nova_quantidade
                                 
                                 elif escolha_mudanca == 0:
                                     break
+
 
 
 
