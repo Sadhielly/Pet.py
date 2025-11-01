@@ -9,7 +9,7 @@ while opc != 0:
     print('----------------MENU-------------------')
     print('1. Cadastrar')
     print('2. Gerenciar PetShop')
-    print('3. Menu de Compra)
+    print('3. Menu de Compra')
     print('0. Sair')
 
     opc = int(input('Digite a opçâo desejada: '))
@@ -243,6 +243,7 @@ while opc != 0:
                     servicos.pop(indice)
                     print('Serviço removido.')
         
+
 
 
 
