@@ -7,7 +7,7 @@ opc = 90000
 print('BEM VINDO AO PETSERTÃO - O MELHOR SERVIÇO DE ATENDIMENTO A ANIMAIS DA REGIÃO!!!!!')
 while opc != 0:
     print('----------------MENU-------------------')
-    print('1. Cadastrar usuário')
+    print('1. Cadastrar.')
     print('2. Gerenciar petshop')
     print('3. Produtos e serviços')
     print('0. Sair')
@@ -18,7 +18,7 @@ while opc != 0:
         opc = int(input('Digite a opçâo desejada: '))
 
     if opc == 1:
-        tipo = input('Deseja logar como usuário[1] ou administrador[2]: ')
+        tipo = input('Deseja cadastrar-se como usuário[1] ou administrador[2]: ')
         while tipo != '1' and tipo != '2':
             print('Opção não existente.')
             tipo = input('Deseja logar como usuário ou administrador(adm): ')
@@ -110,12 +110,11 @@ while opc != 0:
                     horario = []
                     for i in range(horarios):
                         hora = int(input(f'Digite a {i+1}° hora cadastrada: '))
-                        situacao = input('Este horário está disponível ou reservado: ')
                         while hora < 0 and hora > 24:
                             print('Horário inexistente.')
                             hora = int(input(f'Digite a {i+1}° hora cadastras: '))
-                            situacao = input('Este horário está disponível ou reservado: ')
-                        horario.append([hora, situacao, []])                    
+                        situacao = 'disponível'
+                        horario.append([hora, situacao])                    
 
                     servicos.append([procedimento, valor, horario])
                     print('Serviço cadastrado com sucesso!')
@@ -160,7 +159,7 @@ while opc != 0:
                     for i in range(len(produtos)):
                         print(f'{i+1} - Produto: {produtos[i][0]} - Valor: {produtos[i][1]} reais - Quantidade: {produtos[i][2]}')
 
-                    produto_alvo = input('Digite o produto que deseja alterar: ').upper()
+                    produto_alvo = input('Digite o nome produto que deseja alterar: ').upper()
                     for p in range(len(produtos)):
                         if produtos[p][0] == produto_alvo:
                             while True:
@@ -169,21 +168,81 @@ while opc != 0:
                                     print('Digite uma opção entre as oferecidas.')
                                     escolha_mudanca = int(input('Deseja alterar o nome[1], valor[2] ou quantidade[3]: '))
                                 if escolha_mudanca == 1:
-                                    novo_nome = input('Digite o novo nome que o produto irá receber: ')
+                                    novo_nome = input('Digite o novo nome que o produto irá receber: ').upper()
                                     produtos[p][0] = novo_nome
-                                    print('Alterado com sucesso')
+                                    print('Nome alterado com sucesso')
                                 
                                 elif escolha_mudanca == 2:
                                     novo_valor = float(input('Diigte o novo valor para o produto designado: '))
                                     produtos[p][1] = novo_valor
+                                    print('Valor alterado com sucesso!')
 
                                 elif escolha_mudanca == 3:
                                     nova_quantidade = int(input('Digite a nova quantidade do produto: '))
                                     produtos[p][2] = nova_quantidade
+                                    print('Quantidade alterada com sucesso!')
                                 
                                 elif escolha_mudanca == 0:
                                     break
+                
+                elif escolha == 'S':
+                    for i in range(len(servicos)):
+                        print(f'{i} - Serviço: {servicos[i][0]} - Valor: {servicos[i][1]}$')
+                    
+                    servico_indice = int(input('Digite o indice do servico que deseja alterar: '))
+                    while True:
+                        escolha_mudanca = int(input('Deseja alterar o nome[1], valor[2], horário[3] ou sair[0]:'))
+                        while escolha_mudanca != 1 and escolha_mudanca != 2 and escolha_mudanca != 3 and escolha_mudanca != 0:
+                            print('Digite uma opção válida.')
+                            escolha_mudanca = int(input('Deseja alterar o nome[1], valor[2], horário[3], situação[4] ou sair[0]:'))
+                                
+                        if escolha_mudanca == 1:
+                            novo_nome = input('Digite o novo nome do serviço: ').upper()
+                            servicos[servico_indice][0] = novo_nome
+                            print('Nome alterado com sucesso!')
 
+                        elif escolha_mudanca == 2:
+                            novo_valor = float(input('Digite o novo valor do serviço: '))
+                            servicos[servico_indice][1] = novo_valor
+                            print('Valor alterado com sucesso!')
+
+                        elif escolha_mudanca == 3:
+                            print('Horários:')                                
+                            for h in range(len(servicos[servico_indice][2])):
+                                print(f'{h} - {servicos[servico_indice][2][h][0]}:00')
+
+                            indice = int(input('Digite o índice do horário que deseja alterar: '))
+                            novo_horário = int(input('Digite o novo horário: '))
+                            servicos[servico_indice][2][indice][0] = novo_horário
+                            print('Horário alterado com sucesso!')
+                            
+                        elif escolha_mudanca == 0:
+                            break
+
+            elif opcao == 4:
+                escolha = input('Deseja remover um produto[P] ou serviço[S]: ').upper()
+                while escolha != 'P' and escolha != 'S':
+                    print('Digite uma opção válida.')
+                    escolha = input('Deseja remover um produto[P] ou serviço[S]: ').upper()
+
+                if escolha == 'P':
+                    print('Produtos presentes no estoque:')
+                    for i in range(len(produtos)):
+                        print(f'{i} - {produtos[i][0]}')
+
+                    indice = int(input('Digite o índice do produto que deseja remover: '))
+                    produtos.pop(indice)
+                    print('Produto removido.')
+                
+                elif escolha == 'S':
+                    print('Serviços cadastrados:')
+                    for i in range(len(servicos)):
+                        print(f'{i} - {servicos[i][0]}')
+                    
+                    indice = int(input('Digite o indice do serviço que deseja remover: '))
+                    servicos.pop(indice)
+                    print('Serviço removido.')
+        
 
 
 
