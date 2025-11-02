@@ -121,7 +121,7 @@ while opc != 0:
                                 total = produtos[indice][1] * qtd
                                 carrinho.append([produtos[indice][0], qtd, total])
                                 produtos[indice][2] -= qtd
-                                print(f'{qtd}x {produtos[indice][0]} adicionados ao carrinho. Total: R${total:.2f}')
+                                print(f'{qtd}x {produtos[indice][0]} adicionados ao carrinho. Total: R${total}')
 
                 
                 elif escolha_cliente == 2:
@@ -163,9 +163,9 @@ while opc != 0:
                         print('--- ITENS NO SEU CARRINHO ---')
                         total_compra = 0
                         for item in carrinho:
-                            print(f'{item[1]}x {item[0]} - Total: R${item[2]:.2f}')
+                            print(f'{item[1]}x {item[0]} - Total: R${item[2]}')
                             total_compra += item[2]
-                        print(f'Valor total da compra: R${total_compra:.2f}')
+                        print(f'Valor total da compra: R${total_compra}')
                         finalizar = input('Deseja finalizar a compra? [S/N]: ').upper()
                         if finalizar == 'S':
                             print('Compra finalizada com sucesso! Obrigado por comprar no PetSertão')
@@ -178,9 +178,7 @@ while opc != 0:
                         print('--- MEUS AGENDAMENTOS ---')
                         for a in agendamentos:
                             print(f'Serviço: {a[0]} - Horário: {a[1]}:00')
-
-                elif escolha_cliente == 0:
-                    print('Saindo da área do cliente...')
+                
                 else:
                     print('Opção inválida.')
 
@@ -357,3 +355,4 @@ while opc != 0:
                     indice = int(input('Digite o indice do serviço que deseja remover: '))
                     servicos.pop(indice)
                     print('Serviço removido.')
+
