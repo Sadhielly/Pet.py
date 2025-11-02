@@ -8,8 +8,8 @@ print('BEM VINDO AO PETSERTÃO - O MELHOR SERVIÇO DE ATENDIMENTO A ANIMAIS DA R
 while opc != 0:
     print('----------------MENU-------------------')
     print('1. Cadastrar')
-    print('2. Gerenciar PetShop')
-    print('3. Menu de Compra')
+    print('2. Gerenciar petshop')
+    print('3. Produtos e serviços')
     print('0. Sair')
 
     opc = int(input('Digite a opçâo desejada: '))
@@ -68,6 +68,121 @@ while opc != 0:
                 break
             else:
                 print('E-mail ou ID de verificação incorretos.')
+
+    elif opc == 3:
+        
+        print('--- ÁREA DO CLIENTE ---')
+        email_cliente = input('Digite o seu e-mail de cadastro: ')
+        senha_cliente = input('Digite sua senha: ')
+        logado = False
+        for u in usuarios:
+            if u[0] == email_cliente and u[1] == senha_cliente:
+                logado = True
+                break
+
+        if not logado:
+            print('E-mail ou senha incorretos. Faça o cadastro primeiro!')
+        else:
+            print(f'Bem-vindo(a) ao PetSertão, {email_cliente}!')
+            escolha_cliente = 99999
+
+            carrinho = []  
+            agendamentos = [] 
+
+            while escolha_cliente != 0:
+                print('----------- MENU CLIENTE -----------')
+                print('1. Comprar produto')
+                print('2. Agendar serviço')
+                print('3. Ver carrinho')
+                print('4. Ver meus agendamentos')
+                print('0. Sair da área do cliente')
+
+                escolha_cliente = int(input('Digite a opção desejada: '))
+
+                
+                if escolha_cliente == 1:
+                    if len(produtos) == 0:
+                        print('Nenhum produto disponível no momento.')
+                    else:
+                        print('--- PRODUTOS DISPONÍVEIS ---')
+                        for i in range(len(produtos)):
+                            print(f'{i} - {produtos[i][0]} | R$ {produtos[i][1]} | Estoque: {produtos[i][2]}')
+
+                        indice = int(input('Digite o índice do produto que deseja comprar: '))
+                        if indice < 0 or indice >= len(produtos):
+                            print('Índice inválido.')
+                        else:
+                            qtd = int(input('Quantas unidades deseja comprar? '))
+                            if qtd <= 0:
+                                print('Quantidade inválida.')
+                            elif qtd > produtos[indice][2]:
+                                print('Quantidade maior que o estoque disponível!')
+                            else:
+                                total = produtos[indice][1] * qtd
+                                carrinho.append([produtos[indice][0], qtd, total])
+                                produtos[indice][2] -= qtd
+                                print(f'{qtd}x {produtos[indice][0]} adicionados ao carrinho. Total: R${total:.2f}')
+
+                
+                elif escolha_cliente == 2:
+                    if len(servicos) == 0:
+                        print('Nenhum serviço disponível no momento.')
+                    else:
+                        print('--- SERVIÇOS DISPONÍVEIS ---')
+                        for i in range(len(servicos)):
+                            print(f'{i} - {servicos[i][0]} | R$ {servicos[i][1]}')
+
+                        indice_serv = int(input('Digite o índice do serviço que deseja agendar: '))
+                        if indice_serv < 0 or indice_serv >= len(servicos):
+                            print('Índice inválido.')
+                        else:
+                             print('Horários disponíveis:')
+                             disponiveis = []
+    
+                             for i in range(len(servicos[indice_serv][2])):
+                                 h = servicos[indice_serv][2][i]
+                        if h[1] == 'disponível':
+                            print(f'{i} - {h[0]}:00')
+                            disponiveis.append(i)
+
+                            if not disponiveis:
+                                print('Nenhum horário disponível.')
+                            else:
+                                indice_hora = int(input('Escolha o índice do horário desejado: '))
+                                if indice_hora in disponiveis:
+                                    servicos[indice_serv][2][indice_hora][1] = 'ocupado'
+                                    agendamentos.append([servicos[indice_serv][0], servicos[indice_serv][2][indice_hora][0]])
+                                    print('Serviço agendado com sucesso!')
+                                else:
+                                    print('Horário inválido ou indisponível.')
+
+                elif escolha_cliente == 3:
+                    if len(carrinho) == 0:
+                        print('Carrinho vazio.')
+                    else:
+                        print('--- ITENS NO SEU CARRINHO ---')
+                        total_compra = 0
+                        for item in carrinho:
+                            print(f'{item[1]}x {item[0]} - Total: R${item[2]:.2f}')
+                            total_compra += item[2]
+                        print(f'Valor total da compra: R${total_compra:.2f}')
+                        finalizar = input('Deseja finalizar a compra? [S/N]: ').upper()
+                        if finalizar == 'S':
+                            print('Compra finalizada com sucesso! Obrigado por comprar no PetSertão')
+                            carrinho.clear()
+
+                elif escolha_cliente == 4:
+                    if len(agendamentos) == 0:
+                        print('Nenhum agendamento realizado.')
+                    else:
+                        print('--- MEUS AGENDAMENTOS ---')
+                        for a in agendamentos:
+                            print(f'Serviço: {a[0]} - Horário: {a[1]}:00')
+
+                elif escolha_cliente == 0:
+                    print('Saindo da área do cliente...')
+                else:
+                    print('Opção inválida.')
 
         opcao = 9999999
         while opcao != 0:
@@ -173,7 +288,7 @@ while opc != 0:
                                     print('Nome alterado com sucesso')
                                 
                                 elif escolha_mudanca == 2:
-                                    novo_valor = float(input('Diigte o novo valor para o produto designado: '))
+                                    novo_valor = float(input('Digite o novo valor para o produto designado: '))
                                     produtos[p][1] = novo_valor
                                     print('Valor alterado com sucesso!')
 
@@ -189,7 +304,7 @@ while opc != 0:
                     for i in range(len(servicos)):
                         print(f'{i} - Serviço: {servicos[i][0]} - Valor: {servicos[i][1]}$')
                     
-                    servico_indice = int(input('Digite o indice do servico que deseja alterar: '))
+                    servico_indice = int(input('Digite o indice do serviço que deseja alterar: '))
                     while True:
                         escolha_mudanca = int(input('Deseja alterar o nome[1], valor[2], horário[3] ou sair[0]:'))
                         while escolha_mudanca != 1 and escolha_mudanca != 2 and escolha_mudanca != 3 and escolha_mudanca != 0:
@@ -242,9 +357,3 @@ while opc != 0:
                     indice = int(input('Digite o indice do serviço que deseja remover: '))
                     servicos.pop(indice)
                     print('Serviço removido.')
-        
-
-
-
-
-
