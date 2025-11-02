@@ -178,7 +178,11 @@ while opc != 0:
                         print('--- MEUS AGENDAMENTOS ---')
                         for a in agendamentos:
                             print(f'Serviço: {a[0]} - Horário: {a[1]}:00')
-                
+
+
+                elif escolha_cliente == 0:
+                    break
+
                 else:
                     print('Opção inválida.')
 
@@ -355,4 +359,5 @@ while opc != 0:
                     indice = int(input('Digite o indice do serviço que deseja remover: '))
                     servicos.pop(indice)
                     print('Serviço removido.')
+
 
