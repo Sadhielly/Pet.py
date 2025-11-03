@@ -20,7 +20,7 @@ while opc != 0:
     print('0. Sair')
 
     opc = int(input('Digite a opçâo desejada: '))
-    while opc < 0 and opc > 4:
+    while opc < 0 or opc >= 4:
         print('Digite uma opção válida')
         opc = int(input('Digite a opçâo desejada: '))
 
