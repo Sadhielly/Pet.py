@@ -1,6 +1,6 @@
 adm = [['ericafonso@gmail.com', 'eric12345', 102030405060], ['sadhiellly_00@gmail.com', 'sadhi54321', 1000000000]]
 
-usuarios = [['sadhi.elly@gmail.com', 'sadhi1234'],['vitoroque@gmail.com', 'tigrevitinho123']]
+usuarios = [['sadhi.elly@gmail.com', 'sadhi1234'],['vitoroque@gmail.com', 'tigrevitinho123'], ['ericfonso@gmail.com', 'topazio999']]
 
 produtos = [['SHAMPOO', 12.00, 50], ['PERFUME', 25.00, 100], ['RAÇÃO PEDIGREE', 40.00, 75]]
 
@@ -9,6 +9,8 @@ servicos = [
     ['SPA', 100.0, [[15, 'disponível']]], 
     ['AULA DE ADESTRAMENTO', 1200.0, [[19, 'disponível'], [12, 'disponível']]]
 ]
+
+estoque_inicial = [['SHAMPOO', 50], ['PERFUME', 100], ['RAÇÃO PEDIGREE', 75]]
 
 opc = 90000
 print('BEM VINDO AO PETSERTÃO - O MELHOR SERVIÇO DE ATENDIMENTO A ANIMAIS DA REGIÃO!!!!!')
@@ -76,7 +78,7 @@ while opc != 0:
                     break
 
             if logado:
-                print(f'Bem-vindo(a) ao PetSertão!')
+                print('Bem-vindo(a) ao PetSertão!')
                 break
             else:
                 print('E-mail ou senha incorretos.')
@@ -105,10 +107,10 @@ while opc != 0:
                     else:
                         print('--- PRODUTOS DISPONÍVEIS ---')
                         for i in range(len(produtos)):
-                            print(f'{i} - {produtos[i][0]} | R$ {produtos[i][1]} | Estoque: {produtos[i][2]}')
+                            print(f'{i}. {produtos[i][0]} - R$ {produtos[i][1]} - Estoque: {produtos[i][2]}')
 
                         indice = int(input('Digite o índice do produto que deseja comprar: '))
-                        while indice < 0 and indice >= len(produtos):
+                        while indice < 0 and indice > len(produtos):
                             print('Índice inválido.')
                             indice = int(input('Digite o índice do produto que deseja comprar: '))
 
@@ -120,12 +122,12 @@ while opc != 0:
                         total = produtos[indice][1] * qtd
                         carrinho.append([produtos[indice][0], qtd, total])
                         produtos[indice][2] -= qtd
-                        print(f'{qtd}x {produtos[indice][0]} adicionados ao carrinho. Total: R${total}')
+                        print(f'{qtd} unidades de {produtos[indice][0]} adicionados ao carrinho. Total: R${total}')
 
-                        escolha = int(input('Deseja continuar comprando? Sim[S] ou Não[N]')).upper()
+                        escolha = input('Deseja continuar comprando? Sim[S] ou Não[N]: ').upper()
                         while escolha != 'S' and escolha != 'N':
                             print('Opção inválida!. Tente novamente.')
-                            escolha = int(input('Deseja continuar comprando? Sim[S] ou Não[N]')).upper()
+                            escolha = input('Deseja continuar comprando? Sim[S] ou Não[N]: ').upper()
                         if escolha == 'N':
                             break
             
@@ -135,7 +137,7 @@ while opc != 0:
                 else:
                     print('--- SERVIÇOS DISPONÍVEIS ---')
                     for i in range(len(servicos)):
-                        print(f'{i} - {servicos[i][0]} | R$ {servicos[i][1]}')
+                        print(f'{i}. {servicos[i][0]} - R$ {servicos[i][1]}')
 
                     indice_serv = int(input('Digite o índice do serviço que deseja agendar: '))
                     while indice_serv < 0 or indice_serv >= len(servicos):
@@ -168,13 +170,13 @@ while opc != 0:
                     print('--- ITENS NO SEU CARRINHO ---')
                     total_compra = 0
                     for item in carrinho:
-                        print(f'{item[1]}x {item[0]} - Total: R${item[2]}')
+                        print(f'{item[1]} unidades de {item[0]} - Total: R${item[2]}')
                         total_compra += item[2]
                     print(f'Valor total da compra: R${total_compra}')
                     finalizar = input('Deseja finalizar a compra? Sim[S] ou Não[N]: ').upper()
                     while finalizar != 'S' and finalizar != 'N':
                         print('Opção inválida! Tente novamente.')
-                        finalizar = input('Deseja finalizar a compra? [S/N]: ').upper()
+                        finalizar = input('Deseja finalizar a compra? [Sim[S] ou Não[N]: ').upper()
                     if finalizar == 'S':
                         print('Compra finalizada com sucesso! Obrigado por comprar no PetSertão')
                         carrinho.clear()
@@ -219,6 +221,7 @@ while opc != 0:
             print('2. Buscar serviços/produtos')
             print('3. Atualizar serviços/produtos')
             print('4. Remover serviços/produtos')
+            print('5. Analise de estoque')
             print('0. Voltar a menu anterior')
 
             opcao = int(input('Digite a opção desejada: '))
@@ -239,6 +242,7 @@ while opc != 0:
                     quantidade = int(input('Digite a quantidade de produtos em estoque: '))
 
                     produtos.append([item, valor, quantidade])
+                    estoque_inical.append([item, quantidade])
                     print('Produto cadastrado com sucesso!')
 
                 elif escolha == 2:
@@ -304,7 +308,7 @@ while opc != 0:
 
                 if escolha == 'P':
                     for i in range(len(produtos)):
-                        print(f'{i+1} - Produto: {produtos[i][0]} - Valor: {produtos[i][1]} reais - Quantidade: {produtos[i][2]}')
+                        print(f'{i} - Produto: {produtos[i][0]} - Valor: {produtos[i][1]} reais - Quantidade: {produtos[i][2]}')
 
                     produto_alvo = input('Digite o nome produto que deseja alterar: ').upper()
                     for p in range(len(produtos)):
@@ -393,5 +397,16 @@ while opc != 0:
                     indice = int(input('Digite o indice do serviço que deseja remover: '))
                     servicos.pop(indice)
                     print('Serviço removido.')
+            
+            elif opcao == 5:
+                print('Produtos em Estoque:')
+                for p in range(len(produtos)):
+                    estoque_atual = produtos[p][2]
+                    estoque_original = estoque_inicial[p][1]
 
+                    produto_vendido = estoque_original - estoque_atual
 
+                    print(f'Produto: {produtos[p][0]}')
+                    print(f'Estoque inicial: {estoque_original}')
+                    print(f'Estoque atual: {estoque_atual}')
+                    print(f'Vendidos: {produto_vendido}')
