@@ -242,7 +242,7 @@ while opc != 0:
                     quantidade = int(input('Digite a quantidade de produtos em estoque: '))
 
                     produtos.append([item, valor, quantidade])
-                    estoque_inical.append([item, quantidade])
+                    estoque_inicial.append([item, quantidade])
                     print('Produto cadastrado com sucesso!')
 
                 elif escolha == 2:
@@ -409,4 +409,5 @@ while opc != 0:
                     print(f'Produto: {produtos[p][0]}')
                     print(f'Estoque inicial: {estoque_original}')
                     print(f'Estoque atual: {estoque_atual}')
+
                     print(f'Vendidos: {produto_vendido}')
