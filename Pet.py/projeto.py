@@ -1,3 +1,5 @@
+import funcoes_adm as adm
+
 adm = [['ericafonso@gmail.com', 'eric12345', 102030405060], ['sadhiellly_00@gmail.com', 'sadhi54321', 1000000000]]
 
 usuarios = [['sadhi.elly@gmail.com', 'sadhi1234'],['vitoroque@gmail.com', 'tigrevitinho123'], ['ericfonso@gmail.com', 'topazio999']]
@@ -9,6 +11,8 @@ servicos = [
     ['SPA', 100.0, [[15, 'disponível']]], 
     ['AULA DE ADESTRAMENTO', 1200.0, [[19, 'disponível'], [12, 'disponível']]]
 ]
+
+cupons = []
 
 estoque_inicial = [['SHAMPOO', 50], ['PERFUME', 100], ['RAÇÃO PEDIGREE', 75]]
 
@@ -222,6 +226,8 @@ while opc != 0:
             print('3. Atualizar serviços/produtos')
             print('4. Remover serviços/produtos')
             print('5. Analise de estoque')
+            print('6. Criar cupons de desconto')
+            print('7. Alterar/Remover cupons de desconto')
             print('0. Voltar a menu anterior')
 
             opcao = int(input('Digite a opção desejada: '))
@@ -411,3 +417,81 @@ while opc != 0:
                     print(f'Estoque atual: {estoque_atual}')
 
                     print(f'Vendidos: {produto_vendido}')
+
+            elif opcao == 6:
+                while True:
+                    nome_cupom = input('Digite o nome do seu cupom: ').upper()
+                    desconto_apl = float(input('Digite um valor coerente de desconto: '))
+                    while desconto_apl <= 0 or desconto_apl >= 100:
+                        print('Desconto incoerente, digite um valor razoável.')
+                        desconto_apl = float(input('Digite um valor coerente de desconto: '))
+                    
+                    cupons.append([nome_cupom, desconto_apl])
+                    print('Cupom criado com sucesso!')
+                    escolha = input('Deseja continuar criando cupons? Sim[S] ou não[N]: ').upper()
+                    while escolha != 'S' and escolha != 'N':
+                        print('Digite uma opção válida.')
+                        escolha = input('Deseja continuar criando cupons? Sim[S] ou não[N]: ').upper()
+                    
+                    if escolha == 'N':
+                        print('Voltando ao menu anterior..')
+                        break
+                    
+            elif opcao == 7:
+                while True:
+                    cupom_escolha = int(input('Deseja alterar[1] ou remover[2] ou voltar ao menu anterior[0]: '))
+                    while cupom_escolha != 1 and cupom_escolha != 2 and cupom_escolha != 0:
+                        print('Digite uma opção válida.')
+                        cupom_escolha = int(input('Deseja alterar[1] ou remover[2] ou voltar ao menu anterior[0]: '))
+                    
+                    if cupom_escolha == 1:
+                        print('Cupons cadastrados:')
+                        for c in range(len(cupons)):
+                            print(f'{c}. Cupom: {cupons[c][0]} - valor do desconto: {cupons[c][1]}%')
+                        
+                        cupom_indice = int(input('Digite o índice do cupom que deseja alterar: '))
+                        while cupom_indice < 0 and cupom_indice > len(cupons):
+                            print('Indice inválido.')
+                            cupom_indice = int(input('Digite o índice do cupom que deseja alterar: '))
+                        
+                        while True:
+                            escolha = int(input('Deseja mudar o nome[1], valor[2]: '))
+                            while escolha != 1 and escolha != 2:
+                                print('Digite uma opção válida.')
+                                escolha = int(input('Deseja mudar o nome[1], valor[2] ou sair[0]: '))
+                            
+                            if escolha == 1:
+                                novo_nome = input('Digite o novo nome que ele irá receber: ')
+                                cupons[cupom_indice][0] = novo_nome
+                                print('Nome alterado com sucesso!')
+                                
+                                saida = input('Deseja continuar alterando este cupom? Sim[S] ou não[N]').upper()
+                                if saida == 'N':
+                                    print('Saindo..')
+                                    break
+                                    
+                            elif escolha == 2:
+                                novo_valor = float(input('Digite o novo valor do cupom: '))
+                                while novo_valor <= 0 or novo_valor >= 100:
+                                    print('Desconto incoerente, digite um valor razoável.')
+                                    novo_valor = float(input('Digite o novo valor do cupom: '))
+                                cupons[cupom_indice][1] = novo_valor
+                                print('Valor alterado com sucesso!')
+                                
+                                saida = input('Deseja continuar alterando este cupom? Sim[S] ou não[N]').upper()
+                                if saida == 'N':
+                                    print('Saindo..')
+                                    break
+                    
+                    elif cupom_escolha == 2:
+                        print('Cupons cadastrtados:')
+                        for c in range(len(cupons)):
+                            print(f'{c}. Cupom: {cupons[c][0]}')
+                        
+                        cupom_indice = int(input('Digite o índice do cupom que deseja remover: '))
+                        while cupom_indice < 0 and cupom_indice > len(cupons):
+                            print('Indice inválido.')
+                            cupom_indice = int(input('Digite o índice do cupom que deseja remover: '))
+                        
+                        cupons.pop(cupom_indice)
+                        print('Cupom removido com sucesso!')
